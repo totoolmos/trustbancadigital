@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Banca Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .jugadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .jugador-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .jugador-card:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .jugador-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .jugador-nombre {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .jugador-alianza {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .jugador-saldo {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .saldo-bajo {
+            color: #dc3545 !important;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-pago {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-pago:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .btn-qr {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-qr:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        select:focus, input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .opciones-jugador {
+            display: grid;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .opcion-jugador {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .opcion-jugador:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .opcion-jugador.seleccionado {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-cancelar {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-cancelar:hover {
+            background: #5a6268;
+        }
+
+        .btn-confirmar {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-confirmar:hover {
+            background: #218838;
+        }
+
+        .info-saldo {
+            font-size: 0.9em;
+            color: #28a745;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Trust Banca Digital</h1>
+            <div class="subtitle">Sistema de Gestión Bancaria</div>
+        </div>
+
+        <div class="jugadores-grid" id="jugadoresGrid">
+            <!-- Los jugadores se cargan aquí con JavaScript -->
+        </div>
+
+        <div class="controls">
+            <button class="btn-pago" onclick="abrirModalPago()">💰 Hacer Pago</button>
+            <button class="btn-qr" onclick="alert('Escáner QR - Próximamente')">📷 Escanear QR</button>
+        </div>
+    </div>
+
+    <!-- Modal de Pago -->
+    <div class="modal" id="modalPago">
+        <div class="modal-content">
+            <h2>💸 Realizar Pago</h2>
+            
+            <div class="form-group">
+                <label>De (quién paga):</label>
+                <div class="opciones-jugador" id="opcionesOrigen"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Para (destinatario):</label>
+                <div class="opcion-jugador" onclick="seleccionarDestino('banco')" id="opcionBanco">
+                    🏦 Banco
+                </div>
+                <div class="opciones-jugador" id="opcionesDestino"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Monto ($):</label>
+                <input type="number" id="montoPago" placeholder="Ej: 50000" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Concepto:</label>
+                <input type="text" id="conceptoPago" placeholder="Ej: Alquiler, Multa, Premio...">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancelar" onclick="cerrarModalPago()">❌ Cancelar</button>
+                <button class="btn-confirmar" onclick="confirmarPago()">✅ Confirmar Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
