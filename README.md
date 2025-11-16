@@ -18,7 +18,6 @@ Trust Banca Digital es una aplicación web diseñada específicamente para el ju
 - 🔄 **Sistema de transacciones entre jugadores**
 - 🏦 **Pagos al banco automáticos**
 - 🤝 **Sistema de alianzas personalizadas**
-- 🎵 **Easter egg especial para "Los Financistas"**
 - 📱 **Diseño responsive para móviles y tablets**
 - 💾 **Funciona completamente offline**
 
@@ -26,7 +25,7 @@ Trust Banca Digital es una aplicación web diseñada específicamente para el ju
 
 ### Uso Rápido Online
 **¡No necesitas instalar nada!** Visita:  
-🌐 [https://tunombre.github.io/trust-banca-digital](https://tunombre.github.io/trust-banca-digital)
+🌐 [https://totoolmos.github.io/trust-banca-digital](https://tunombre.github.io/trust-banca-digital)
 
 ### Uso Local
 1. **Descarga** los archivos del proyecto
